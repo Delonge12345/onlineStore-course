@@ -64,3 +64,59 @@ const DeviceInfo = sequelize.define('device_info', {
     title: {type: DataTypes.STRING, allowNull: false},
     description: {type: DataTypes.STRING, allowNull: false},
 })
+
+//Create middle table
+
+const TypeBoard = sequelize.define('type_board', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+})
+
+
+//Create connections between models
+
+//User connections
+User.hasOne(Basket)
+Basket.belongsTo(User)
+
+User.hasMany(Rating)
+Rating.belongsTo(User)
+
+
+//Basket connections
+Basket.hasMany(BasketDevice)
+BasketDevice.belongsTo(Basket)
+
+
+//Type connections
+Type.hasMany(Device)
+Device.belongsTo(Type)
+
+
+//Brand connections
+Brand.hasMany(Device)
+Device.belongsTo(Brand)
+
+
+//Device connections
+Device.hasMany(Rating)
+Rating.belongsTo(Device)
+
+Device.hasMany(DeviceInfo)
+DeviceInfo.belongsTo(Device)
+
+
+//Type belongs to several models
+Type.belongsToMany(Brand, {through: TypeBoard})
+Brand.belongsToMany(Type, {through: TypeBoard})
+
+module.exports = {
+    User,
+    Basket,
+    BasketDevice,
+    Type,
+    Brand,
+    Rating,
+    Device,
+    DeviceInfo,
+    TypeBoard
+}

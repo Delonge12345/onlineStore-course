@@ -9,7 +9,8 @@ class UserController {
 
     }
     async checkRole(req, res) {
-        res.json( 'Checked!')
+        const {id} = req.query
+        res.json(id)
     }
 }
 
